@@ -413,7 +413,7 @@ MonoBehaviour:
   C_Croner: {x: 2, y: 0, z: 2}
   R_Corner: {x: -2, y: 0, z: 2}
   L_Corner: {x: 2, y: 0, z: -2}
-  Jump: 3
+  Jump: 5
 --- !u!54 &2048650690
 Rigidbody:
   m_ObjectHideFlags: 0
