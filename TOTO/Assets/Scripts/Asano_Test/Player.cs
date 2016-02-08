@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Player : MonoBehaviour {
-    [SerializeField]Vector3 C_Croner = new Vector3(2,0,2);
+    [SerializeField]Vector3 C_Corner = new Vector3(2,0,2);
     [SerializeField]Vector3 R_Corner=new Vector3(-2,0,2);
     [SerializeField]Vector3 L_Corner = new Vector3(2, 0, -2);
 
@@ -14,6 +14,7 @@ public class Player : MonoBehaviour {
      * E-N 4
      */
     int Cam_State;
+    float pos_num=0;
     float rot_Y;
 
     bool Jampable = true;
@@ -30,48 +31,51 @@ public class Player : MonoBehaviour {
         Vector3 pos=gameObject.transform.position;
         if (!turn_)
         {
-            //プレイヤーを手前の2面にとどめる処理============================
-            if (pos.x > C_Croner.x)
-                gameObject.transform.position = new Vector3(C_Croner.x,pos.y,pos.z);
-            if (pos.x < R_Corner.x)
-                gameObject.transform.position = new Vector3(R_Corner.x, pos.y, pos.z);
-            if (pos.z < L_Corner.z)
-                gameObject.transform.position = new Vector3(pos.x, pos.y, L_Corner.z);
-            if (pos.z > C_Croner.z)
-                gameObject.transform.position = new Vector3(pos.x, pos.y, C_Croner.z);
-            //===============================================================
-
-            //移動処理=======================================================
-            if (pos.x <= C_Croner.x && pos.z == C_Croner.z && pos.x >= R_Corner.x)
+            //プレイヤーの移動処理===========================================
+            pos_num += Input.GetAxis("Horizontal")/45;
+            if (pos_num > 1)
+                pos_num = 1;
+            else if (pos_num < -1)
+                pos_num = -1;
+            if (pos_num < 0 && pos_num > -1)
             {
-                transform.position += new Vector3(-Input.GetAxis("Horizontal") / 15, 0, 0);
-                Cam_State = 1;
-
-            }
-            if(pos.z<=C_Croner.z&&pos.x==C_Croner.x&&pos.z>=L_Corner.z)
-            {
-                transform.position += new Vector3(0,0,Input.GetAxis("Horizontal")/15);
+                gameObject.transform.position = new Vector3(C_Corner.x, pos.y, C_Corner.z + (C_Corner.z - L_Corner.z) * pos_num);
                 Cam_State = 2;
             }
-            if (pos.x == C_Croner.x && pos.z == C_Croner.z)
+            else if (pos_num <= -1)
             {
-                if (Input.GetAxis("Horizontal") < 0)
-                    transform.position += new Vector3(-Input.GetAxis("Horizontal") / 15, 0, 0);
-                else
-                    transform.position += new Vector3(0, 0,Input.GetAxis("Horizontal") / 15);
+                gameObject.transform.position = new Vector3(L_Corner.x, pos.y, L_Corner.z);
+                Cam_State = 2;
             }
-            //===============================================================
+            else if (pos_num > 0 && pos_num < 1)
+            {
+                gameObject.transform.position = new Vector3(C_Corner.x - (C_Corner.x - R_Corner.x) * pos_num, pos.y, C_Corner.z);
+                Cam_State = 1;
+            }
+            else if (pos_num >= 1)
+            {
+                gameObject.transform.position = new Vector3(R_Corner.x, pos.y, R_Corner.z);
+                Cam_State = 1;
+            }
+            else
+            {
+                gameObject.transform.position = new Vector3(C_Corner.x, pos.y, C_Corner.z);
+                Cam_State = 0;
+            }
 
+            //===============================================================
             //回転処理=======================================================
             if (Input.GetAxis("R1") != 0&&Cam_State==2)
             {
                 Debug.Log("R1");
                 StartCoroutine("turn",-1);
+                pos_num = pos_num + 1;
             } 
             if (Input.GetAxis("L1") != 0 && Cam_State == 1)
             {
                 Debug.Log("L1");
-                StartCoroutine("turn",1);
+                StartCoroutine("turn", 1);
+                pos_num = pos_num - 1;
             }
             //===============================================================
 
@@ -102,6 +106,7 @@ public class Player : MonoBehaviour {
             }
             transform.parent = null;
             turn_ = false;
+            //pos_num *= -1;
             yield return null;
             Isrunning = false;
         }
