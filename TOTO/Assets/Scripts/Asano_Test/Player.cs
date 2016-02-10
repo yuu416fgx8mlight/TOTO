@@ -6,11 +6,14 @@ public class Player : MonoBehaviour {
     [SerializeField]Vector3 R_Corner;
     [SerializeField]Vector3 L_Corner;
 
-    public int Jump=3;
-    
+    public int Jump=3;  
+    public int H_Jamp;
+
     int Cam_State;
     float pos_num=0;
     float rot_Y;
+
+    int High_Jamp = 0;
 
     bool Jampable = true;
     bool turn_ = false;
@@ -77,8 +80,16 @@ public class Player : MonoBehaviour {
             //ジャンプ=======================================================
             if (Jampable && (Input.GetAxis("Jump" + gameObject.name) != 0))
             {
-                Jampable = false;
-                this.gameObject.GetComponent<Rigidbody>().AddForce(0, Jump, 0, ForceMode.Impulse);
+                if (High_Jamp != 0)
+                {
+                    Jampable = false;
+                    this.gameObject.GetComponent<Rigidbody>().AddForce(0, H_Jamp, 0, ForceMode.Impulse);
+                }
+                else
+                {
+                    Jampable = false;
+                    this.gameObject.GetComponent<Rigidbody>().AddForce(0, Jump, 0, ForceMode.Impulse);
+                }
             }
             //===============================================================
         }
@@ -112,8 +123,14 @@ public class Player : MonoBehaviour {
     void OnCollisionEnter(Collision col)
     {
         this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        if(col.gameObject.tag=="Ground")
-        Jampable = true;
+        switch (col.gameObject.tag)
+        {
+            case "Ground":
+                Jampable = true;
+                break;
+            case "ItemA":
+                break;
+        }
     }
     //================================================================
 }
