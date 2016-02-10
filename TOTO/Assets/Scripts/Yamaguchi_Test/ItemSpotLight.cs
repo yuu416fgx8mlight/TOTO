@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class SpotLightItem : MonoBehaviour {
+public class ItemSpotLight : MonoBehaviour {
 
 	public Image RightSpot;
 	public Image LeftSpot;
@@ -18,10 +18,10 @@ public class SpotLightItem : MonoBehaviour {
 	}
 
 	public void OnTriggerEnter(Collider SpotItemGet){
-		if (gameObject.tag == "LeftPlayer") {
+		if (SpotItemGet.gameObject.tag == "LeftPlayer") {
 			StartCoroutine ("LeftSpotItem");
 		}
-		if (gameObject.tag == "RightPlayer") {
+		if (SpotItemGet.gameObject.tag == "RightPlayer") {
 			StartCoroutine ("RightSpotItam");
 		}
 	}
@@ -31,6 +31,7 @@ public class SpotLightItem : MonoBehaviour {
 		RightSpot.enabled = true;
 		yield return new WaitForSeconds(10.0f);
 		RightSpot.enabled = false;
+		Destroy (gameObject);
 	}
 
 	//右側の塔でアイテムを取得した場合の処理
@@ -38,5 +39,6 @@ public class SpotLightItem : MonoBehaviour {
 		LeftSpot.enabled = true;
 		yield return new WaitForSeconds(10.0f);
 		LeftSpot.enabled = false;
+		Destroy (gameObject);
 	}
 }
