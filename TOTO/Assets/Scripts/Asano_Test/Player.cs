@@ -32,6 +32,7 @@ public class Player : MonoBehaviour {
                 pos_num = 1;
             else if (pos_num < -1)
                 pos_num = -1;
+            //===============================================================
             if (this.pos_num < 0 && pos_num > -1)
             {
                 this.gameObject.transform.position = new Vector3(C_Corner.x, pos.y, C_Corner.z + (C_Corner.z - L_Corner.z) * pos_num);
@@ -59,13 +60,14 @@ public class Player : MonoBehaviour {
             }
 
             //===============================================================
+
             //回転処理=======================================================
-            if (Input.GetAxis("R" + gameObject.name) != 0 && Cam_State == 2)
+            if (Input.GetAxis("L" + gameObject.name) != 0 && Cam_State == 2)
             {
 //                Debug.Log("R1");
                 StartCoroutine("turn",-1);
             }
-            if (Input.GetAxis("L" + gameObject.name) != 0 && Cam_State == 1)
+            if (Input.GetAxis("R" + gameObject.name) != 0 && Cam_State == 1)
             {
 //                Debug.Log("L1");
                 StartCoroutine("turn", 1);
@@ -109,7 +111,8 @@ public class Player : MonoBehaviour {
     //ジャンプの回復処理==============================================
     void OnCollisionEnter(Collision col)
     {
-        if(col.gameObject.name=="Ground")
+        this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        if(col.gameObject.tag=="Ground")
         Jampable = true;
     }
     //================================================================
