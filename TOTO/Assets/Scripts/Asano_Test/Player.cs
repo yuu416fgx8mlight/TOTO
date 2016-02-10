@@ -19,7 +19,7 @@ public class Player : MonoBehaviour {
     [SerializeField]GameObject Wall;
     // Use this for initialization
 	void Start () {
-        Wall = GameObject.Find("Wall"+gameObject.name);
+        Wall = GameObject.Find("tou"+gameObject.name);
 	}
 	// Update is called once per frame
 	void Update () {
