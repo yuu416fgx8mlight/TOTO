@@ -29,6 +29,8 @@ public class ItemSpotLight : MonoBehaviour {
 	//左側の塔でアイテムを取得した場合の処理
 	public IEnumerator LeftSpotItem(){
 		RightSpot.enabled = true;
+		GetComponent<Renderer>().enabled = false;
+		GetComponent<BoxCollider> ().enabled = false;
 		yield return new WaitForSeconds(10.0f);
 		RightSpot.enabled = false;
 		Destroy (gameObject);

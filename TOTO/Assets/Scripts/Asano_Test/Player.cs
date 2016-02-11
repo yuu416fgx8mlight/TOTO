@@ -15,7 +15,7 @@ public class Player : MonoBehaviour {
 
     int High_Jamp = 0;
 
-    bool Jampable = true;
+    public static bool Jampable = true;
     bool turn_ = false;
     bool Isrunning=false;
     Vector3 pos_;

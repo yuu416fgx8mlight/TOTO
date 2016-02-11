@@ -29,16 +29,20 @@ public class ItemRockFall : MonoBehaviour {
 	}
 
 	public IEnumerator LeftRockItem(){
-		for (i=1;i<10;i++) {
-			Instantiate (Rocks, new Vector3 (RightTarget.position.x, RightTarget.position.y + 10, RightTarget.position.z), Quaternion.identity);
+		GetComponent<Renderer>().enabled = false;
+		GetComponent<BoxCollider> ().enabled = false;
+		for (i=1;i<20;i++) {
+			Instantiate (Rocks, new Vector3 (RightTarget.position.x, RightTarget.position.y + 1, RightTarget.position.z), Quaternion.identity);
 			yield return new WaitForSeconds (0.5f);
 		}
 		Destroy (gameObject);
 	}
 
 	public IEnumerator RightRockItem(){
-		for (i=1;i<10;i++) {
-			Instantiate (Rocks, new Vector3 (LeftTarget.position.x, LeftTarget.position.y + 10, LeftTarget.position.z), Quaternion.identity);
+		GetComponent<Renderer>().enabled = false;
+		GetComponent<BoxCollider> ().enabled = false;
+		for (i=1;i<20;i++) {
+			Instantiate (Rocks, new Vector3 (LeftTarget.position.x, LeftTarget.position.y + 1, LeftTarget.position.z), Quaternion.identity);
 			yield return new WaitForSeconds (0.5f);
 		}
 		Destroy (gameObject);
