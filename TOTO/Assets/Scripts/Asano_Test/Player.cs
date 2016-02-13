@@ -28,6 +28,8 @@ public class Player : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
+		//Debug.Log (Jampable);
+
         Vector3 pos=this.gameObject.transform.position;
         if (!turn_)
         {

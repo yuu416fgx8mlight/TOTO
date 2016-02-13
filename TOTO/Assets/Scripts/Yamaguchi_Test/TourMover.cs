@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TourMover : MonoBehaviour {
 
-	public GameObject PlayerPos;
+	public Transform PlayerPos;
 	public float JumpPoint;
 
 	// Use this for initialization
@@ -19,7 +19,7 @@ public class TourMover : MonoBehaviour {
 
 		if (Input.GetButtonDown("Jump1"))
 		{
-			if (Player.Jampable == true) {
+			if (Player.Jampable == false) {
 				StartCoroutine ("Jumping");
 			}
 		}
